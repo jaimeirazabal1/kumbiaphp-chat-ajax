@@ -1,0 +1,67 @@
+<script type="text/javascript">
+	window.onload = function(){
+		resizeTo(screen.width, screen.height)
+		moveTo(0, 0);
+	}
+</script>
+<style type="text/css">
+	body{
+		background-color:#E0E0E0;
+	}
+</style>
+<center>
+  		<?php echo Html::img("logo.png") ?>
+		<h2>Administrador para chat</h2>
+  		<p>
+  			<?php echo $mensaje ?>
+  		</p>
+  		</center>
+<div class="row">
+  <div class="col-md-4">
+  	<ul class="list-group">
+  			<?php foreach ($salas as $key => $value): ?>
+		  		<li class="list-group-item"><img width="50" src="<?php echo $value->gravatar ?>" alt=""> <?php echo $value->nombre." ( ".$value->email.") " ?>
+					<input type="button" class="btn btn-default btn-xs ver_mensajes" codigo="<?php echo $value->identificador_canal ?>" id="<?php echo $value->usuario_id ?>" value="Ver Mensajes">
+		  		</li>
+  			<?php endforeach ?>			
+		</ul>
+  </div>
+  <div class="col-md-4">
+		<div class="well">
+		<div class="well" id="zona_mensajes" style="height:350px;overflow:scroll">
+			
+		</div>
+		<div class="form-group">
+			<input type="text" name="mensaje" id="mensaje" placeholder="Escribe aqui, luego presiona ENTER" class="form-control mensaje">
+		</div>
+		<div class="pull-left">
+			<div class="check">
+				<label>
+					<input type="checkbox" id="mute">Mute
+				</label>
+			</div>
+		</div>
+		<div class="pull-right">
+			<input type="submit" onclick="window.close()" name="ingresar" value="Close" class="btn btn-default">
+		</div>
+
+		<div class="clearfix"></div>
+	</div>	
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("body").on("click",".ver_mensajes",function(){
+			var id = $(this).attr("id");
+			$.ajax({
+				url:"get_mensajes_canal",
+				type:"POST",
+				data:{codigo:$(this).attr("codigo")},
+				success:function(r){
+					console.log(r)
+				}
+			})
+		})
+	})
+</script>

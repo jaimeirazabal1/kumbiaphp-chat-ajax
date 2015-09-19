@@ -1,0 +1,44 @@
+<script type="text/javascript">
+	window.onload = function(){
+		resizeTo(screen.width, screen.height)
+		moveTo(0, 0);
+	}
+</script>
+<style type="text/css">
+	body{
+		background-color:#E0E0E0;
+	}
+</style>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+  		<br>
+  		<br>
+  		<br>
+  		<center>
+  		<?php echo Html::img("logo.png") ?>
+		<h2>Chat para asistencia</h2>
+  		</center>
+		<?php echo Form::open("index/sala","POST","class='well'") ?>
+			<div class="form-group">
+				<label for="">Nombre</label>
+				<input type="text" name="nombre" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="">E-Mail</label>
+				<input type="email" name="email" value="jaimeirazabal1@gmail.com" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="">Como podemos ayudarte?</label>
+				<textarea name="ayuda" class="form-control">Puedes Ayudarme en un soporte?</textarea>
+			</div>
+			<div class="pull-right">
+				<input type="submit" name="ingresar" value="Start" class="btn btn-default">
+			</div>
+			<div class="clearfix"></div>
+		</form>
+	
+  </div>
+  <div class="col-md-4"></div>
+</div>
+

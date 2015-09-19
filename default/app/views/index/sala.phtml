@@ -1,0 +1,88 @@
+<style type="text/css">
+	body{
+		background-color:#E0E0E0;
+	}
+</style>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+  		<br>
+  		<br>
+  		<br>
+  		<center>
+  		<?php echo Html::img("logo.png") ?>
+		<h2>Sala de asistencia</h2>
+  		</center>
+		<div class="well">
+			<div class="well" id="zona_mensajes" style="height:350px;overflow:scroll">
+					Usted esta conectado ahora
+				<hr>
+			</div>
+			<div class="form-group">
+				<input type="text" name="mensaje" id="mensaje" placeholder="Escribe aqui, luego presiona ENTER" class="form-control mensaje">
+			</div>
+			<div class="pull-left">
+				<div class="check">
+					<label>
+						<input type="checkbox" id="mute">Mute
+					</label>
+				</div>
+			</div>
+			<div class="pull-right">
+				<input type="submit" onclick="window.close()" name="ingresar" value="Close" class="btn btn-default">
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+	
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("body").on("keyup",".mensaje",function(e){
+			var tecla = e.keyCode;
+			
+			if (tecla == 13) {
+				mandarMensaje($(this).val(),$(this));
+			}
+			return false;
+		});
+		setInterval("consultarMensajes()",1000);
+	});
+	function mandarMensaje(mensaje,este){
+		var imagen = "<img style='float:left;padding:4px;' src=\"<?php echo $imagen ?>\" width=\"50\" alt=\"Tu Imagen\">";
+		var mgs = "<span style='float:left;padding-top:10px;'>"+imagen+"<b><?php echo $nombre.'('.$email.')</b>: ' ?><br>"+mensaje+"</span>";
+		var codigo_ = "<?php echo $identificador_canal ?>";
+
+		$.ajax({
+			url:"mandar_mensaje",
+			type:"POST",
+			data:{mensaje:mgs,codigo:codigo_},
+			async:false,
+			success:function(r){
+				console.log('mensaje enviado:',r);
+				//$("#zona_mensajes").append(mgs);
+				este.val("");
+			}
+		})
+	};
+	function consultarMensajes(){
+		var codigo = "<?php echo $identificador_canal ?>";
+		$.ajax({
+			url:"consultar_mensaje",
+			type:"POST",
+			data:{codigo:codigo},
+			async:false,
+			dataType:"json",
+			success:function(r){
+				console.log(r)
+				if (!$("#mute").is(":checked")) {
+					for (var i = 0; i < r.length; i++) {
+						$("#zona_mensajes").append(r[i].mensaje);
+					};				
+				};
+			}
+		})	
+	}
+</script>

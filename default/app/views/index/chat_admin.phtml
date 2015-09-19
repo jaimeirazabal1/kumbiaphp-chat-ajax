@@ -1,0 +1,41 @@
+<script type="text/javascript">
+	window.onload = function(){
+		resizeTo(screen.width, screen.height)
+		moveTo(0, 0);
+	}
+</script>
+<style type="text/css">
+	body{
+		background-color:#E0E0E0;
+	}
+</style>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+  		<br>
+  		<br>
+  		<br>
+  		<center>
+  		<?php echo Html::img("logo.png") ?>
+		<h2>Administrador para chat</h2>
+  		</center>
+		<?php echo Form::open("index/sala_admin","POST","class='well'") ?>
+		
+			<div class="form-group">
+				<label for="">E-Mail</label>
+				<input type="email" name="email" value="jaimeirazabal1@gmail.com" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="">Password</label>
+				<input type="password" name="password" value="administrador" class="form-control">
+			</div>
+			<div class="pull-right">
+				<input type="submit" name="ingresar" value="Start" class="btn btn-default">
+			</div>
+			<div class="clearfix"></div>
+		</form>
+	
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
