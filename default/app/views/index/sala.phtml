@@ -24,12 +24,12 @@
 			<div class="pull-left">
 				<div class="check">
 					<label>
-						<input type="checkbox" id="mute">Mute
+						<input type="checkbox" id="mute"> Silenciar
 					</label>
 				</div>
 			</div>
 			<div class="pull-right">
-				<input type="submit" onclick="window.close()" name="ingresar" value="Close" class="btn btn-default">
+				<input type="submit" id="cerra_ventana" name="ingresar" value="Cerrar Chat" class="btn btn-default">
 			</div>
 
 			<div class="clearfix"></div>
@@ -40,6 +40,36 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		window.onbeforeunload = function(){
+			$.ajax({
+				url:"cerrar_sesion_usuario",
+				type:"POST",
+				data:{usuario_id:"<?php echo $usuario_id ?>"},
+				success:function(r){
+					console.log(r)
+					if (r === true) {
+						window.close();
+					}else{
+						alert("Error, no se pudo cerrar la sesion")
+					}
+				}
+			})
+		}
+		$("#cerra_ventana").click(function(){
+			$.ajax({
+				url:"cerrar_sesion_usuario",
+				type:"POST",
+				data:{usuario_id:"<?php echo $usuario_id ?>"},
+				success:function(r){
+					console.log(r)
+					if (r === true) {
+						window.close();
+					}else{
+						alert("Error, no se pudo cerrar la sesion")
+					}
+				}
+			})
+		})
 		$("body").on("keyup",".mensaje",function(e){
 			var tecla = e.keyCode;
 			
@@ -52,13 +82,13 @@
 	});
 	function mandarMensaje(mensaje,este){
 		var imagen = "<img style='float:left;padding:4px;' src=\"<?php echo $imagen ?>\" width=\"50\" alt=\"Tu Imagen\">";
-		var mgs = "<span style='float:left;padding-top:10px;'>"+imagen+"<b><?php echo $nombre.'('.$email.')</b>: ' ?><br>"+mensaje+"</span>";
+		var mgs = "<span style='float:left;padding-top:10px;'>"+imagen+"<b><?php echo $nombre.'('.$email.')</b>: ' ?><br>"+mensaje+"</span><div class='clearfix'></div>";
 		var codigo_ = "<?php echo $identificador_canal ?>";
-
+		var usuario_id = "<?php echo $usuario_id ?>";
 		$.ajax({
 			url:"mandar_mensaje",
 			type:"POST",
-			data:{mensaje:mgs,codigo:codigo_},
+			data:{mensaje:mgs,codigo:codigo_,usuario_id:usuario_id},
 			async:false,
 			success:function(r){
 				console.log('mensaje enviado:',r);
